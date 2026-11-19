@@ -116,7 +116,7 @@ uncompressed XML out of the share afterwards (project folder as the authoritativ
 
 ## Splitting an already-delivered divisi part into one-voice files (dated follow-up pass)
 
-The user asked for this on 2026-10-29 and restated it as a standing convention: it is **not** a
+Julian asked for this on 2026-10-29 and restated it as a standing convention: it is **not** a
 default for transcriptions — only when he asks for it (in the brief or afterwards). Run it as
 its own dated pass on the existing delivery, not as a silent rewrite:
 

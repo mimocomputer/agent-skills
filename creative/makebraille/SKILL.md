@@ -2,7 +2,7 @@
 name: makebraille
 description: "Use when converting MusicXML or CapX scores to music Braille via dzb lesen's MakeBraille service. Vault-backed login, batch conversion, verified end-to-end plumbing."
 version: 0.1.0
-author: Hermes Agent
+author: Hermes Agent + Julian
 license: MIT
 platforms: [linux, macos]
 metadata:
@@ -87,13 +87,13 @@ AgentMail-Adresse umzustellen ändert nur dieses Profil, nicht die eigenen.
   nicht an (43 Nachrichten im Postfach, alle von GitHub; keine Empfangs-Sperrliste aktiv,
   `GET /v0/inboxes/<id>/lists/receive/allow` ist leer). Zu klären: kann der Dienst an fremde
   Domains ausliefern (Adresse im Profil bestätigungspflichtig?), und nimmt AgentMail Post von
-  `no-reply@dzblesen.de` an? Testmail vom Nutzer-Mailadresse an das Postfach klärt die zweite Frage;
-  sonst makebraille-support@dzblesen.de fragen. Bis das geklärt ist, bleibt the user's `Chor`
-  (Zustellung an sein E-Mail, nachweislich zuverlässig) der sichere Weg.
-* **Zustellung an the user's E-Mail funktioniert (bestätigt 01.11.2026):** mit dem unveränderten Profil `Chor` hochgeladen, Ergebnis-Mails an `USER_EMAIL` kamen an (je Datei eine). Für the user's eigene Auslieferung also `Chor` verwenden, nicht umstellen.
+  `no-reply@dzblesen.de` an? Testmail vom Nutzer-Gmail an das Postfach klärt die zweite Frage;
+  sonst makebraille-support@dzblesen.de fragen. Bis das geklärt ist, bleibt Julians `Chor`
+  (Zustellung an sein Gmail, nachweislich zuverlässig) der sichere Weg.
+* **Zustellung an Julians Gmail funktioniert (bestätigt 01.11.2026):** mit dem unveränderten Profil `Chor` hochgeladen, Ergebnis-Mails an `USER_EMAIL` kamen an (je Datei eine). Für Julians eigene Auslieferung also `Chor` verwenden, nicht umstellen.
 * **Klon steht bereit:** Profil `Hermes-AgentMail` im Konto (Kopie von `Chor`, Empfänger
   `AGENT_EMAIL`, Stand 31.10.2026 feldweise geprüft: nur Adresse und Profilname weichen von
-  `Chor` ab). Für eigene Läufe `--profile Hermes-AgentMail` setzen; `Chor` bleibt the user's Profil.
+  `Chor` ab). Für eigene Läufe `--profile Hermes-AgentMail` setzen; `Chor` bleibt Julians Profil.
 * **Klon anlegen ist eine Falle:** Werte nie als flaches `{name: value}`-Dict über alle Felder in
   Dokumentreihenfolge einsammeln — bei Radiogruppen gewinnt sonst der **letzte** Eintrag (jeder
   Radiotag trägt sein eigenes `value`), und der neue Profil wird zu einem Default-Profil (im
@@ -109,11 +109,11 @@ AgentMail-Adresse umzustellen ändert nur dieses Profil, nicht die eigenen.
 * **Profilwechsel ist ein eigener Schritt** (`mode=switch_uprofile`) und muss vor dem Upload
   passieren; danach prüfen (das aktiv gewählte `<option ... selected>`); ein
   `uprofile_selector` im Upload-POST allein wechselt das Profil nicht.
-* **Leere Antwort (HTTP 200, 0 Byte) ist die häufigste Form — nicht hektisch wiederholen** (gemessen 01.11.2026, Profil `Chor`: von fünf Uploads kamen vier leer zurück, nur einer als Startseite mit „still being converted"). Der leere Body heißt nicht, dass die Datei nicht angenommen wurde — der POST kann verarbeitet und die Antwort verloren gegangen sein: der POST war gesendet, und die Konvertierung lief (the user meldete am 01.11.2026 für zwei hochgeladene Dateien **zwei** Ergebnis-Mails, obwohl ein Versuch leer geantwortet hatte; die Zuordnung — je Datei eine oder dieselbe zweimal — war noch offen). Und **jeder** abgesetzte POST kann eine eigene Mail erzeugen: zwei Uploads derselben Datei brachten the user am 01.11.2026 zweimal dieselbe Mail. Also **nicht** automatisch wiederholen — hochladen, dem Nutzer sagen, dass die Mail kommt, und erst auf seine Rückmeldung hin erneut senden — die Weboberfläche bietet keine Job-Liste, der Posteingang ist die einzige Prüfung.
+* **Leere Antwort (HTTP 200, 0 Byte) ist die häufigste Form — nicht hektisch wiederholen** (gemessen 01.11.2026, Profil `Chor`: von fünf Uploads kamen vier leer zurück, nur einer als Startseite mit „still being converted"). Der leere Body heißt nicht, dass die Datei nicht angenommen wurde — der POST kann verarbeitet und die Antwort verloren gegangen sein: der POST war gesendet, und die Konvertierung lief (Julian meldete am 01.11.2026 für zwei hochgeladene Dateien **zwei** Ergebnis-Mails, obwohl ein Versuch leer geantwortet hatte; die Zuordnung — je Datei eine oder dieselbe zweimal — war noch offen). Und **jeder** abgesetzte POST kann eine eigene Mail erzeugen: zwei Uploads derselben Datei brachten Julian am 01.11.2026 zweimal dieselbe Mail. Also **nicht** automatisch wiederholen — hochladen, dem Nutzer sagen, dass die Mail kommt, und erst auf seine Rückmeldung hin erneut senden — die Weboberfläche bietet keine Job-Liste, der Posteingang ist die einzige Prüfung.
 * **Drei Antwortformen auf einen Upload:** (a) Danke-Seite „Your converted music Braille file
   will be sent to: <adresse>." — akzeptiert, nennt die Zieladresse (beste Bestätigung),
   (b) Startseite mit „Your file is still being converted, please wait." — angenommen,
-  (c) leere Antwort (HTTP 200, 0 Byte) — häufigster Fall, aber NICHT automatisch wiederholen: jeder POST kann eine eigene Ergebnis-Mail erzeugen (the user bekam dieselbe Mail zweimal). Nutzer informieren, nur auf seine Rückmeldung erneut senden. Welche Form
+  (c) leere Antwort (HTTP 200, 0 Byte) — häufigster Fall, aber NICHT automatisch wiederholen: jeder POST kann eine eigene Ergebnis-Mail erzeugen (Julian bekam dieselbe Mail zweimal). Nutzer informieren, nur auf seine Rückmeldung erneut senden. Welche Form
   kommt, hängt offenbar vom Serverzustand ab, **nicht** vom Profil: `Chor` und
   `Chor_Direktausgabe` haben feldweise identische Einstellungen (44/46 gleich, nur der Name
   differiert) und lieferten dennoch beide Formen.
